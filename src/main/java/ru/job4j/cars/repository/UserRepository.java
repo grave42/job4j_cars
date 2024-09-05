@@ -185,11 +185,10 @@ public class UserRepository {
             session = sf.openSession();
             session.beginTransaction();
             String hql = "FROM User WHERE login = :login";
-            User user = session.createQuery(hql, User.class)
+            result = session.createQuery(hql, User.class)
                     .setParameter("login", login)
-                    .uniqueResult();
+                    .uniqueResultOptional();
             session.getTransaction().commit();
-            result = Optional.ofNullable(user);
         } catch (Exception e) {
             if (session != null) {
                 session.getTransaction().rollback();
